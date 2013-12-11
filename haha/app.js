@@ -8,6 +8,7 @@ var express = require('express')
   , user = require('./routes/user')
   , http = require('http')
   , path = require('path');
+var spawn = require('child_process').spawn;
 
 var app = express();
 
@@ -26,10 +27,15 @@ if ('development' == app.get('env')) {
   app.use(express.errorHandler());
 }
 
-app.get('/users', user.list);
-app.get('/shell', function(req, res){
-	var spawn = require('child_process').spawn,
-    ls    = spawn('ls', ['./public/images']);
+app.get('/carema', function(req, res){
+    //raspistill -o ./public/images/image.jpg -q 5
+    var raspistill = spawn('raspistill', ['-o',' ./public/images/'+ new Date().toString +'.jpg']);
+    raspistill.on('close', function(code) {
+       res.redirect( '/images' );
+    });
+});
+app.get('/images', function(req, res){
+    var ls = spawn('ls', ['./public/images']);
 
 	ls.stdout.on('data', function (data) {
   		console.log('stdout: ' + data);
