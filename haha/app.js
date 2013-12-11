@@ -30,6 +30,9 @@ if ('development' == app.get('env')) {
 app.get('/carema', function(req, res){
     //raspistill -o ./public/images/image.jpg -q 5
     var raspistill = spawn('raspistill', ['-o',' ./public/images/'+ new Date().toString +'.jpg']);
+    raspistill.stdout.on('data', function(data){
+      console.log(data);
+    });
     raspistill.on('close', function(code) {
        res.redirect( '/images' );
     });
