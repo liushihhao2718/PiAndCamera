@@ -29,12 +29,17 @@ if ('development' == app.get('env')) {
 
 app.get('/carema', function(req, res){
     //raspistill -o ./public/images/image.jpg -q 5
-    var raspistill = spawn('raspistill', ['-o',' ./public/images/'+ new Date().toString +'.jpg']);
+    var str = ' ./public/images/image'+ new Date().getTime() +'.jpg';
+    console.log(str);
+    var raspistill = spawn('raspistill', ['-o', str]);
     raspistill.stdout.on('data', function(data){
       console.log(data);
     });
     raspistill.on('close', function(code) {
        res.redirect( '/images' );
+    });
+    ls.stderr.on('data', function (data) {
+      console.log('err '+data);
     });
 });
 app.get('/images', function(req, res){
