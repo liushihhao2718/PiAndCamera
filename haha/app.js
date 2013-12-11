@@ -29,17 +29,21 @@ if ('development' == app.get('env')) {
 
 app.get('/carema', function(req, res){
     //raspistill -o ./public/images/image.jpg -q 5
-    var str = ' ./public/images/image'+ new Date().getTime() +'.jpg';
+    var str = './public/images/image'+ new Date().getTime()+'.jpg';
     console.log(str);
-    var raspistill = spawn('raspistill', ['-o', str]);
+    var raspistill = spawn('raspistill', ['-o', str.toString()]);
     raspistill.stdout.on('data', function(data){
       console.log(data);
+res.end('1');
+      // res.redirect('images');
     });
     raspistill.on('close', function(code) {
-       res.redirect( '/images' );
+    
+	 res.redirect( '/images' );
     });
-    ls.stderr.on('data', function (data) {
-      console.log('err '+data);
+    raspistill.stderr.on('data', function (data) {
+res.end('3');     
+ console.log('err '+data);
     });
 });
 app.get('/images', function(req, res){
@@ -50,6 +54,7 @@ app.get('/images', function(req, res){
 
   		var imageStrings = (''+data).split("\n");
 		res.set('text/html');
+		imageStrings.push("<a href='/carema'><button>take a photo</button></a><br>");
   		for(str in imageStrings) 
   		{
   			console.log('haha'+imageStrings[str]);
