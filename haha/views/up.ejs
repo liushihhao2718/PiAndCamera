@@ -6,10 +6,17 @@
 <script language = "JavaScript">
 	document.bgColor="silver";	
 </script> 
-<!--
-圖片位置放置區
--->
-<%- images %>
-</body>
 
+<form action="/carema" method="get">
+  Quantity (between 1 and 100): <br>
+  <input type="number" name="quantity" value="100" min="1" max="100">
+  <input type="submit" value="photo" target="down">
+</form>
+
+<br>
+<h3>照片</h3>
+
+<%- images %>
+
+</body>
 </html>
