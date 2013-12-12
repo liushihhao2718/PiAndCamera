@@ -1,7 +1,11 @@
 var spawn = require('child_process').spawn
 
+var check = function(str) {
+  str.push( "<br><a href='/check.log' target='down'><button>intruding log</button></a>");
+};
+
 exports.images = function(req, res){
-    var ls = spawn('ls', ['./public/images']);
+    var ls = spawn('ls', ['-t','./public/images']);
 
 	ls.stdout.on('data', function (data) {
   		console.log('stdout: ' + data);
@@ -13,10 +17,10 @@ exports.images = function(req, res){
   		{
   			console.log('haha'+imageStrings[str]);
   			if (imageStrings[str] != '')
-  				imageStrings[str] = '<a href= "/images/'+imageStrings[str]+'">'+imageStrings[str]+'</a><br>';
+  				imageStrings[str] = '<a href= "/images/'+imageStrings[str]+'" target="down">'+imageStrings[str]+'</a><br>';
   		}
-
-  		res.end(imageStrings.join(''));
+    check(imageStrings);
+  	res.render('up', { images: imageStrings.join('') });
 	});
 
 	ls.stderr.on('data', function (data) {
