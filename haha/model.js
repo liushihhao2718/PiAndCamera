@@ -40,8 +40,8 @@ var month = d.getMonth();
 var year = d.getFullYear();
 
     var str = './public/images/image-'+ year+'-'+month+'-'+date+'.jpg';
-    console.log(str);
-    var raspistill = spawn('raspistill', ['-o', str.toString()]);
+    console.log(str + req.query.quantity);
+    var raspistill = spawn('raspistill', ['-o', str.toString(), '-q', req.query.quantity]);
     raspistill.stdout.on('data', function(data){
       console.log(data);
 res.end('1');
