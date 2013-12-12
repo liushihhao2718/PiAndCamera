@@ -39,5 +39,5 @@ while True:
 		
 		for x in range(10):
 			 #subprocess.call(["command1", "arg1", "arg2"])
-			subprocess.call(["raspistill", "-o", ts + "_" + x +".jpg", "-t", "1", "-q", "50"])
+			subprocess.call(["raspistill", "-o", ts + "_" + x +".jpg", "-t", "1", "-q", "50", "-w", "640", "-h", "480"])
     		time.sleep(1)   # sleep 1 sec
