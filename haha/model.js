@@ -30,7 +30,12 @@ exports.images = function(req, res){
 
 exports.takePhoto = function(req, res){
     //raspistill -o ./public/images/image.jpg -q 5
-    var str = './public/images/image'+ new Date().getTime()+'.jpg';
+var d = new Date();
+var date = d.getDate();
+var month = d.getMonth();
+var year = d.getFullYear();
+
+    var str = './public/images/image-'+ year+'-'+month+'-'+date+'.jpg';
     console.log(str);
     var raspistill = spawn('raspistill', ['-o', str.toString()]);
     raspistill.stdout.on('data', function(data){
