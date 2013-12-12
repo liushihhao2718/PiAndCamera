@@ -36,7 +36,8 @@ exports.takePhoto = function(req, res){
 
     var str = './public/images/image-'+ new Date().getTime() +'.jpg';
     console.log(str + req.query.quantity);
-    var raspistill = spawn('raspistill', ['-o', str.toString(), '-q', req.query.quantity], '-t',1,'-w','600','-h','600');
+	    //var raspistill = spawn('raspistill', ['-o', str.toString(), '-q', req.query.quantity], '-t',1,'-w','600','-h','600');
+var raspistill = spawn('raspistill', ['-o', str.toString(), '-q', req.query.quantity, '-t',1,'-w','600','-h','600']);
     raspistill.stdout.on('data', function(data){
       console.log(data);
 res.end('1');
