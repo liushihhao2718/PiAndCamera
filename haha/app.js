@@ -7,8 +7,8 @@ var express = require('express')
   , routes = require('./routes')
   , user = require('./routes/user')
   , http = require('http')
-  , path = require('path');
-var spawn = require('child_process').spawn;
+  , path = require('path')
+  , model = require('./model.js');
 
 var app = express();
 
@@ -27,52 +27,8 @@ if ('development' == app.get('env')) {
   app.use(express.errorHandler());
 }
 
-app.get('/carema', function(req, res){
-    //raspistill -o ./public/images/image.jpg -q 5
-    var str = './public/images/image'+ new Date().getTime()+'.jpg';
-    console.log(str);
-    var raspistill = spawn('raspistill', ['-o', str.toString()]);
-    raspistill.stdout.on('data', function(data){
-      console.log(data);
-res.end('1');
-      // res.redirect('images');
-    });
-    raspistill.on('close', function(code) {
-    
-	 res.redirect( '/images' );
-    });
-    raspistill.stderr.on('data', function (data) {
-res.end('3');     
- console.log('err '+data);
-    });
-});
-app.get('/images', function(req, res){
-    var ls = spawn('ls', ['./public/images']);
-
-	ls.stdout.on('data', function (data) {
-  		console.log('stdout: ' + data);
-
-  		var imageStrings = (''+data).split("\n");
-		res.set('text/html');
-		imageStrings.push("<a href='/carema'><button>take a photo</button></a><br>");
-  		for(str in imageStrings) 
-  		{
-  			console.log('haha'+imageStrings[str]);
-  			if (imageStrings[str] != '')
-  				imageStrings[str] = '<a href= "/images/'+imageStrings[str]+'">'+imageStrings[str]+'</a><br>';
-  		}
-
-  		res.end(imageStrings.join(''));
-	});
-
-	ls.stderr.on('data', function (data) {
-  		console.log('stderr: ' + data);
-	});
-
-	ls.on('close', function (code) {
-  		console.log('child process exited with code ' + code);
-	});
-});
+app.get('/carema', model.takePhoto);
+app.get('/images', model.images);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
