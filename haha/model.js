@@ -34,14 +34,10 @@ exports.images = function(req, res){
 
 exports.takePhoto = function(req, res){
     //raspistill -o ./public/images/image.jpg -q 5
-var d = new Date();
-var date = d.getDate();
-var month = d.getMonth();
-var year = d.getFullYear();
 
-    var str = './public/images/image-'+ year+'-'+month+'-'+date+'.jpg';
+    var str = './public/images/image-'+ new Date().getTime() +'.jpg';
     console.log(str + req.query.quantity);
-    var raspistill = spawn('raspistill', ['-o', str.toString(), '-q', req.query.quantity]);
+    var raspistill = spawn('raspistill', ['-o', str.toString(), '-q', req.query.quantity], '-t',1);
     raspistill.stdout.on('data', function(data){
       console.log(data);
 res.end('1');
