@@ -22,11 +22,11 @@ while True:
 #    var = input("Enter 1 - 9: ")
 #    if not var:
 #        continue
-
-#    writeNumber(var)
-#    print "RPI: Hi Arduino, I sent you ", var
+    
+    writeNumber(9999)
+    print "Pi sent Arduino : 9999"
     # sleep one second
-#    time.sleep(1)
+    time.sleep(1)
 
     number = readNumber()
     print "Pi Received light number from Arduino: ", number
@@ -34,10 +34,10 @@ while True:
     if number > 30 :
     	subprocess.call("date")
     	#raspistill -o pict.jpg -t 2000 
-		ts = int(time.time())
-		print ts
+	ts = int(time.time())
+	print ts
 		
-		for x in range(10):
-			 #subprocess.call(["command1", "arg1", "arg2"])
-			subprocess.call(["raspistill", "-o", ts + "_" + x +".jpg", "-t", "1", "-q", "50", "-w", "640", "-h", "480"])
-    		time.sleep(1)   # sleep 1 sec
+	for x in range(10):
+            #subprocess.call(["command1", "arg1", "arg2"])
+            subprocess.call(["raspistill", "-o", ts + "_" + x +".jpg", "-t", "1", "-q", "50", "-w", "640", "-h", "640"])
+            time.sleep(1)   # sleep 1 sec
