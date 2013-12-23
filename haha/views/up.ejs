@@ -1,0 +1,26 @@
+<html>
+<head>
+<title>Raspberry pi	</title>
+</head>
+<body>
+<script language = "JavaScript">
+	document.bgColor="silver";	
+</script> 
+
+<h3>照片</h3>
+<form action="/carema" method="get">
+  Quantity (between 1 and 100): <br>
+  <input type="number" name="quantity" value="100" min="1" max="100">
+  <input type="submit" value="photo" target="down">
+</form>
+<%- images %>
+
+<h3>影片</h3>
+<form action="/record" method="get">
+	time:<input type="number" name="sec" value="5">
+	<input type="submit" value="record" target="down">
+</form>
+<%- videos %>
+
+</body>
+</html>
