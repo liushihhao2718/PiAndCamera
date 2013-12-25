@@ -53,26 +53,28 @@ exports.takePhoto = function(req, res){
 };
 
 exports.takeVideo = function(req, res){
-    //raspivid -t 5(ms) -o ./public/images/name.h264
+    //raspivid -t 5(ms) -o ./public/videos/name.h264
     var d = new Date().getTime();
     var str = './public/vidoes/video-'+ d;
     var h264Path = str +'.h264';
-    var raspistill = spawn('raspivid', ['-t', req.query.sec, '-o', h264Path]);
+	console.log('!!!!!!!!'+ h264Path);
+    var raspistill = spawn('raspivid', ['-t', req.query.sec, '-o', h264Path.toString()]);
     raspistill.stdout.on('data', 
-      function(data){
-        var ffmpeg = spawn('ffmpeg', ['-i', h264, '-vcodec', 'copy', str+'.mp4']);
-        ffmpeg.stdout.on('data', function(data){
-          console.log(data);
-        });
-        ffmpeg.on('close', function(data){
-          console.log(data);
-        });
-        ffmpeg.stderr.on('data', function(data) {
-          console.log(data);
-        });
-    });
+      function(data){  });
     raspistill.on('close', function(code) {
-          res.redirect( '/images' );
+	console.log('video close');
+          var ffmpeg = spawn('ffmpeg', ['-i', h264Path.toString(), '-vcodec', 'copy', str+'.mp4']);
+          ffmpeg.stdout.on('data', function(data){
+            console.log(data);
+          });
+          ffmpeg.on('close', function(data){
+            console.log('fuck you self!!!!!!!!\n');
+          });
+          ffmpeg.stderr.on('data', function(data) {
+            console.log(data);
+          });
+
+      res.redirect( '/images' );
     });
     raspistill.stderr.on('data', function (data) {
        console.log('err '+data);
