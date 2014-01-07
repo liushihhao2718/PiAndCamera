@@ -1,5 +1,7 @@
 PiAndCamera
 ===========
+
+[youtube 影片](http://www.youtube.com/watch?v=0SIx0d9gDXc)  
 成員：劉士豪、李明益
 
 	功能項目	 
